@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="FASTFUNNELS: Agile Multi-Robot Safe Navigation in
+Narrow Spaces via Adaptive and Dynamic Funnels">
+  <meta name="keywords" content="Representation Learning, Reactive and Sensor-Based Planning, Task and Motion Planning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="Mv03K1PSHa6DfPDktDXDooEr11AZ1jIliliLan_6mQg" />
+  <title>FASTFUNNELS: Agile Multi-Robot Safe Navigation in
+Narrow Spaces via Adaptive and Dynamic Funnels</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    .video-comparison-section {
+      padding: 2rem 0;
+    }
+
+    .video-grid-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .video-grid-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .method-header {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.5rem 0.5rem 1rem;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .scene-row td {
+      padding: 0.4rem 0.5rem;
+      vertical-align: top;
+    }
+
+    .video-cell {
+      text-align: center;
+    }
+
+    .video-cell video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #000;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border: 3px solid #222;
+    }
+
+    .video-cell.ours video {
+      border: 4px solid #1a73e8;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.3);
+    }
+
+    .scene-label-row td {
+      text-align: center;
+      padding: 0.3rem 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .scene-divider {
+      height: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      .method-header {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.25rem 0.75rem;
+      }
+      .scene-label-row td {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title"> FASTFUNNELS: Agile Multi-Robot Safe Navigation in
+Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Comparison Section -->
+<!-- <section class="section video-comparison-section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <div class="video-grid-wrapper">
+          <table class="video-grid-table">
+            <!-- Method headers -->
+            <thead>
+              <tr>
+                <th class="method-header" style="width:25%">DRNav (Ours)</th>
+                <th class="method-header" style="width:25%">DWA</th>
+                <th class="method-header" style="width:25%">DWB</th>
+                <th class="method-header" style="width:25%">MPPI</th>
+              </tr>
+            </thead>
+            <tbody> -->
+              <!-- Outdoor Scene row -->
+              <!-- <tr class="scene-row">
+                <td class="video-cell ours">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/outdoor_scene_drnav(1).mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/outdoor_scene_dwa(1)(1).mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/outdoor_scene_dwb(1)(1).mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/outdoor_scene_mppi(1)(1).mp4" type="video/mp4">
+                  </video>
+                </td>
+              </tr>
+              <tr class="scene-label-row">
+                <td colspan="4">Outdoor Scene</td>
+              </tr> -->
+
+              <!-- Frontiers row -->
+              <!-- <tr class="scene-row">
+                <td class="video-cell ours">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/frontier_drnav.mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/frontier_dwa.mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/frontier_dwb.mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/frontier_mppi.mp4" type="video/mp4">
+                  </video>
+                </td>
+              </tr>
+              <tr class="scene-label-row">
+                <td colspan="4">Frontiers</td>
+              </tr> -->
+
+              <!-- Indoor Scene row -->
+              <!-- <tr class="scene-row">
+                <td class="video-cell ours">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/office_multi_drnav.mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/office_multi_dwa.mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/office_multi_dwb.mp4" type="video/mp4">
+                  </video>
+                </td>
+                <td class="video-cell">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/office_multi_mppi.mp4" type="video/mp4">
+                  </video>
+                </td>
+              </tr> -->
+              <!-- <tr class="scene-label-row">
+                <td colspan="4">Indoor Scene</td>
+              </tr> -->
+            <!-- </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We consider the problem of high-speed and safe multi-robot navigation in cluttered spaces with tight spatial constraints. Ideally, we want robots to move fast but be safe at the same time. Current approaches directly optimize for robot trajectories that satisfy both constraints, but solving the resulting non-convex problem at high speeds in real-time, with tightly coupled, constrained dynamics, is complex and remains an open problem. In this work, we propose a new approach using funnels and optimizing them, instead of optimizing the robot's trajectory directly. Drawing inspiration from swarm robotics and multi-robot coordination literature, in particular, formation-based control methods, we propose a hierarchical algorithm that trains a dual-policy network. The high-level policy controls a dynamic ``blob''-like patch that can morph its shape in real-time, and the low-level policy controls the agents to simply stay inside the patch. By deferring the high-speed maneuverability to the patch, which can fluidly squeeze, stretch, and orient itself through obstacles and tight spaces, the patch ``funnels'' the enclosed robots at high speeds around obstacles and tight spaces. Our approach, called FASTFUNNELS, thus bypasses the need for robots to solve complex dual-objective, dynamics-constrained optimizations and instead satisfies a much simpler spatial constraint. We evaluate our approach using simulated F1TENTH racing cars and show that FASTFUNNELS achieves 100% convoy success at 5.6m/s across N=2 and N=3 over 20 trials, while all baselines that scale beyond N=2 either fail or succeed at 7.6 times lower speed (0.74 m/s, 20% aSR).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<body>
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>. This webpage template is from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+            We sincerely thank <a href="https://keunhong.com/">Keunhong Park</a> for developing and open-sourcing this template.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
