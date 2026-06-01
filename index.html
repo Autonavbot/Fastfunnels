@@ -124,7 +124,7 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
   </div>
 </section>
 
-<!--
+
 <section class="section video-comparison-section">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
@@ -133,10 +133,11 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
           <table class="video-grid-table">
             <thead>
               <tr>
-                <th class="method-header" style="width:25%">DRNav (Ours)</th>
-                <th class="method-header" style="width:25%">DWA</th>
-                <th class="method-header" style="width:25%">DWB</th>
-                <th class="method-header" style="width:25%">MPPI</th>
+                <th class="method-header" style="width:25%">FASTFUNNELS (Ours)</th>
+                <th class="method-header" style="width:25%">ORCA</th>
+                <th class="method-header" style="width:25%">ASRL</th>
+                <th class="method-header" style="width:25%">L&F</th>
+                <th class="method-header" style="width:25%">DEFORM</th>
               </tr>
             </thead>
             <tbody>
@@ -148,17 +149,17 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/outdoor_scene_dwa(1)(1).mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/outdoor_scene_dwb(1)(1).mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/outdoor_scene_mppi(1)(1).mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
               </tr>
@@ -169,22 +170,22 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
               <tr class="scene-row">
                 <td class="video-cell ours">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/frontier_drnav.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/frontier_dwa.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/frontier_dwb.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/frontier_mppi.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
               </tr>
@@ -195,27 +196,27 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
               <tr class="scene-row">
                 <td class="video-cell ours">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/office_multi_drnav.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/office_multi_dwa.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/office_multi_dwb.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
                 <td class="video-cell">
                   <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/office_multi_mppi.mp4" type="video/mp4">
+                    <source src="" type="video/mp4">
                   </video>
                 </td>
               </tr>
               <tr class="scene-label-row">
-                <td colspan="4">Indoor Scene</td>
+                <td colspan="4"></td>
               </tr>
             </tbody>
           </table>
@@ -224,7 +225,37 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
     </div>
   </div>
 </section>
--->
+
+
+<section class="section" style="padding-bottom: 0;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem;">
+          <img src="./static/images/image1.png" alt="Result image 1"
+               style="flex: 1; max-width: 45%; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.12);">
+          <img src="./static/images/image2.png" alt="Result image 2"
+               style="flex: 1; max-width: 45%; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.12);">
+          <!-- Velocity colorbar: bottom=2 m/s (yellow), top=10 m/s (dark teal) -->
+          <div style="display: flex; align-items: stretch; gap: 4px; flex-shrink: 0; height: 200px;">
+            <div style="width: 18px; border-radius: 3px; border: 1px solid #333;
+                        background: linear-gradient(to top, rgb(255,255,89), rgb(115,185,0), rgb(0,90,90));"></div>
+            <div style="display: flex; flex-direction: column; justify-content: space-between; font-size: 0.72rem; color: #333;">
+              <span>10</span>
+              <span>8</span>
+              <span>6</span>
+              <span>4</span>
+              <span>2</span>
+            </div>
+          </div>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #555; font-style: italic;">
+          Velocity profile of FASTFUNNELS (Ours) — color indicates robot speed (m/s).
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section">
   <div class="container is-max-desktop">
