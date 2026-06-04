@@ -242,7 +242,22 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
 </section>
 
 
-<section class="section" style="padding-bottom: 0;">
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We consider the problem of high-speed and safe multi-robot navigation in cluttered spaces with tight spatial constraints. Ideally, we want robots to move fast but be safe at the same time. Current approaches directly optimize for robot trajectories that satisfy both constraints, but solving the resulting non-convex problem at high speeds in real-time, with tightly coupled, constrained dynamics, is complex and remains an open problem. In this work, we propose a new approach using funnels and optimizing them, instead of optimizing the robot's trajectory directly. Drawing inspiration from swarm robotics and multi-robot coordination literature, in particular, formation-based control methods, we propose a hierarchical algorithm that trains a dual-policy network. The high-level policy controls a dynamic ``blob''-like patch that can morph its shape in real-time, and the low-level policy controls the agents to simply stay inside the patch. By deferring the high-speed maneuverability to the patch, which can fluidly squeeze, stretch, and orient itself through obstacles and tight spaces, the patch ``funnels'' the enclosed robots at high speeds around obstacles and tight spaces. Our approach, called FASTFUNNELS, thus bypasses the need for robots to solve complex dual-objective, dynamics-constrained optimizations and instead satisfies a much simpler spatial constraint. We evaluate our approach using simulated F1TENTH racing cars and show that FASTFUNNELS achieves 100% convoy success at 5.6m/s across N=2 and N=3 over 20 trials, while all baselines that scale beyond N=2 either fail or succeed at 7.6 times lower speed (0.74 m/s, 20% aSR).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
   <div class="container is-max-desktop">
     <div class="columns is-centered">
       <div class="column">
@@ -267,21 +282,6 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
         <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #555; font-style: italic;">
           Velocity profile of FASTFUNNELS (Ours) — color indicates robot speed (m/s).
         </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            We consider the problem of high-speed and safe multi-robot navigation in cluttered spaces with tight spatial constraints. Ideally, we want robots to move fast but be safe at the same time. Current approaches directly optimize for robot trajectories that satisfy both constraints, but solving the resulting non-convex problem at high speeds in real-time, with tightly coupled, constrained dynamics, is complex and remains an open problem. In this work, we propose a new approach using funnels and optimizing them, instead of optimizing the robot's trajectory directly. Drawing inspiration from swarm robotics and multi-robot coordination literature, in particular, formation-based control methods, we propose a hierarchical algorithm that trains a dual-policy network. The high-level policy controls a dynamic ``blob''-like patch that can morph its shape in real-time, and the low-level policy controls the agents to simply stay inside the patch. By deferring the high-speed maneuverability to the patch, which can fluidly squeeze, stretch, and orient itself through obstacles and tight spaces, the patch ``funnels'' the enclosed robots at high speeds around obstacles and tight spaces. Our approach, called FASTFUNNELS, thus bypasses the need for robots to solve complex dual-objective, dynamics-constrained optimizations and instead satisfies a much simpler spatial constraint. We evaluate our approach using simulated F1TENTH racing cars and show that FASTFUNNELS achieves 100% convoy success at 5.6m/s across N=2 and N=3 over 20 trials, while all baselines that scale beyond N=2 either fail or succeed at 7.6 times lower speed (0.74 m/s, 20% aSR).
-          </p>
-        </div>
       </div>
     </div>
   </div>
