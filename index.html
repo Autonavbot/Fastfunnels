@@ -91,6 +91,92 @@ Narrow Spaces via Adaptive and Dynamic Funnels</title>
       height: 1.2rem;
     }
 
+    .video-thumb-wrap {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      max-width: 640px;
+      width: 100%;
+    }
+
+    .video-thumb-wrap img {
+      display: block;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .video-thumb-wrap .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .video-thumb-wrap:hover .play-btn {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: #fff;
+    }
+
+    .video-thumb-wrap .play-btn::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 14px 0 14px 26px;
+      border-color: transparent transparent transparent #1a73e8;
+      margin-left: 5px;
+    }
+
+    .video-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-modal-overlay.active {
+      display: flex;
+    }
+
+    .video-modal-inner {
+      position: relative;
+      width: 90%;
+      max-width: 960px;
+    }
+
+    .video-modal-inner video {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .video-modal-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
     @media (max-width: 768px) {
       .method-header {
         font-size: 0.8rem;
@@ -286,6 +372,46 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
     </div>
   </div>
 </section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <div class="video-thumb-wrap" onclick="document.getElementById('v3-modal').classList.add('active')">
+          <img src="./static/images/fastfunnels_v3_thumb.jpg" alt="FastFunnels supplementary video">
+          <div class="play-btn"></div>
+        </div>
+        <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #555; font-style: italic;">
+          Click to watch the FASTFUNNELS supplementary video
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="video-modal-overlay" id="v3-modal" onclick="if(event.target===this){closeV3Modal()}">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" onclick="closeV3Modal()">&#x2715;</button>
+    <video id="v3-video" controls playsinline preload="metadata">
+      <source src="./static/videos/Fastfunnels_v3.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<script>
+  function closeV3Modal() {
+    var v = document.getElementById('v3-video');
+    v.pause();
+    v.currentTime = 0;
+    document.getElementById('v3-modal').classList.remove('active');
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeV3Modal();
+  });
+  document.getElementById('v3-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeV3Modal();
+  });
+</script>
 
 <body>
 <footer class="footer">
