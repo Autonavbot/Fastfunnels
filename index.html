@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="FASTFUNNELS: Agile Multi-Robot Safe Navigation in
-Narrow Spaces via Adaptive and Dynamic Funnels">
+        content="FASTFUNNELS: Agile Multi Robot Navigation in Narrow Spaces via
+Adaptive Dynamic Funnels">
   <meta name="keywords" content="Representation Learning, Reactive and Sensor-Based Planning, Task and Motion Planning">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-site-verification" content="Mv03K1PSHa6DfPDktDXDooEr11AZ1jIliliLan_6mQg" />
@@ -186,6 +186,137 @@ Narrow Spaces via Adaptive and Dynamic Funnels</title>
         font-size: 0.75rem;
       }
     }
+
+    .video-controls-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .dropdown-tile {
+      position: relative;
+      min-width: 170px;
+    }
+
+    .dropdown-tile-button {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 8px;
+      padding: 0.5rem 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .dropdown-tile-button:hover {
+      border-color: #1a73e8;
+    }
+
+    .dropdown-tile-button:focus-visible,
+    .dropdown-tile-menu li[role="option"]:focus-visible {
+      outline: 2px solid #1a73e8;
+      outline-offset: 2px;
+    }
+
+    .dropdown-tile[data-open="true"] .dropdown-tile-button {
+      border-color: #1a73e8;
+      box-shadow: 0 2px 10px rgba(26,115,232,0.25);
+    }
+
+    .dropdown-tile-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #888;
+      display: block;
+    }
+
+    .dropdown-tile-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #222;
+      display: block;
+    }
+
+    .dropdown-tile-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dropdown-tile-caret {
+      margin-left: auto;
+      color: #888;
+      transition: transform 0.15s;
+    }
+
+    .dropdown-tile[data-open="true"] .dropdown-tile-caret {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-tile-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0.35rem 0;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 100%;
+      max-height: 260px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      z-index: 30;
+    }
+
+    .dropdown-tile-menu[hidden] {
+      display: none;
+    }
+
+    .dropdown-tile-menu li[role="option"] {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.88rem;
+      color: #333;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .dropdown-tile-menu li[role="option"].is-active {
+      background: #f0f6ff;
+    }
+
+    .dropdown-tile-menu li[role="option"][aria-selected="true"] {
+      font-weight: 700;
+      color: #1a73e8;
+    }
+
+    .no-data-cell {
+      padding: 2.5rem 1rem;
+      text-align: center;
+      color: #777;
+      font-style: italic;
+      font-size: 0.95rem;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    @media (max-width: 768px) {
+      .video-controls-bar {
+        justify-content: stretch;
+      }
+      .dropdown-tile {
+        flex: 1;
+      }
+    }
   </style>
 </head>
 
@@ -215,6 +346,34 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
   <div class="container" style="max-width: 95%; width: 95%;">
     <div class="columns is-centered has-text-centered">
       <div class="column">
+        <div class="video-controls-bar">
+          <div class="dropdown-tile" id="scenario-dropdown" data-open="false">
+            <button type="button" class="dropdown-tile-button" id="scenario-button"
+                    aria-haspopup="listbox" aria-expanded="false" aria-controls="scenario-listbox">
+              <span class="dropdown-tile-text">
+                <span class="dropdown-tile-label">Scenario</span>
+                <span class="dropdown-tile-value" id="scenario-value">Scenario 1</span>
+              </span>
+              <span class="dropdown-tile-caret" aria-hidden="true">&#9662;</span>
+            </button>
+            <ul class="dropdown-tile-menu" id="scenario-listbox" role="listbox"
+                aria-labelledby="scenario-button" tabindex="-1" hidden></ul>
+          </div>
+
+          <div class="dropdown-tile" id="agents-dropdown" data-open="false">
+            <button type="button" class="dropdown-tile-button" id="agents-button"
+                    aria-haspopup="listbox" aria-expanded="false" aria-controls="agents-listbox">
+              <span class="dropdown-tile-text">
+                <span class="dropdown-tile-label">Number of Agents</span>
+                <span class="dropdown-tile-value" id="agents-value">N = 3</span>
+              </span>
+              <span class="dropdown-tile-caret" aria-hidden="true">&#9662;</span>
+            </button>
+            <ul class="dropdown-tile-menu" id="agents-listbox" role="listbox"
+                aria-labelledby="agents-button" tabindex="-1" hidden></ul>
+          </div>
+        </div>
+
         <div class="video-grid-wrapper">
           <table class="video-grid-table">
             <thead>
@@ -226,100 +385,7 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
                 <th class="method-header" style="width:20%">DEFORM</th>
               </tr>
             </thead>
-            <tbody>
-              <tr class="scene-row">
-                <td class="video-cell ours">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Narrow%20corridor/patchcar_narrow_agents.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Narrow%20corridor/orca_3agent_5mps_narrow.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Narrow%20corridor/las_success_seed42.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Narrow%20corridor/lf_3agent_5mps_narrow.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Narrow%20corridor/deform_4agents_staggered_clear.mp4" type="video/mp4">
-                  </video>
-                </td>
-              </tr>
-              <tr class="scene-label-row">
-                <td colspan="5">Narrow Corridor</td>
-              </tr>
-
-              <tr class="scene-row">
-                <td class="video-cell ours">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Static__obstacle/fastfunnels_2agents.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Static__obstacle/orca_3agent_5mps_start.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Static__obstacle/las_success_start.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Static__obstacle/lf_3agent_5mps_start.mp4" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="./static/videos/Static__obstacle/deform_4agents_from_start.mp4" type="video/mp4">
-                  </video>
-                </td>
-              </tr>
-              <tr class="scene-label-row">
-                <td colspan="5">Static Obstacle</td>
-              </tr>
-
-              <!-- <tr class="scene-row">
-                <td class="video-cell ours">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="" type="video/mp4">
-                  </video>
-                </td>
-                <td class="video-cell">
-                  <video autoplay muted loop playsinline preload="metadata">
-                    <source src="" type="video/mp4">
-                  </video>
-                </td>
-              </tr>
-              <tr class="scene-label-row">
-                <td colspan="5">Center Obstacles</td>
-              </tr> -->
-            </tbody>
+            <tbody id="video-tbody" aria-live="polite"></tbody>
           </table>
         </div>
       </div>
@@ -378,7 +444,7 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
     <div class="columns is-centered has-text-centered">
       <div class="column">
         <div class="video-thumb-wrap" onclick="document.getElementById('v3-modal').classList.add('active')">
-          <img src="./static/images/basement_column_ghosts.pdf" alt="FastFunnels supplementary video">
+          <img src="./static/images/basement_column_ghosts.png" alt="FastFunnels supplementary video">
           <div class="play-btn"></div>
         </div>
         <p style="margin-top: 0.75rem; font-size: 0.9rem; color: #555; font-style: italic;">
@@ -411,6 +477,224 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
   document.getElementById('v3-modal').addEventListener('click', function(e) {
     if (e.target === this) closeV3Modal();
   });
+</script>
+
+<script>
+  // Video data keyed by scenario id -> agent count (N) -> per-method video paths.
+  // Only scenarios 1 and 2 currently have real video assets; all others are
+  // placeholders awaiting data, and unmatched (scenario, N) combos fall back
+  // to a "no data yet" message instead of a broken video.
+  var VIDEO_DATA = {
+    1: {
+      label: 'Narrow Corridor',
+      byN: {
+        3: {
+          ours: './static/videos/Narrow%20corridor/patchcar_narrow_agents.mp4',
+          orca: './static/videos/Narrow%20corridor/orca_3agent_5mps_narrow.mp4',
+          asrl: './static/videos/Narrow%20corridor/las_success_seed42.mp4',
+          lf: './static/videos/Narrow%20corridor/lf_3agent_5mps_narrow.mp4',
+          deform: './static/videos/Narrow%20corridor/deform_4agents_staggered_clear.mp4'
+        }
+      }
+    },
+    2: {
+      label: 'Static Obstacle',
+      byN: {
+        3: {
+          ours: './static/videos/Static__obstacle/fastfunnels_2agents.mp4',
+          orca: './static/videos/Static__obstacle/orca_3agent_5mps_start.mp4',
+          asrl: './static/videos/Static__obstacle/las_success_start.mp4',
+          lf: './static/videos/Static__obstacle/lf_3agent_5mps_start.mp4',
+          deform: './static/videos/Static__obstacle/deform_4agents_from_start.mp4'
+        }
+      }
+    }
+  };
+
+  var SCENARIO_OPTIONS = [];
+  for (var s = 1; s <= 14; s++) {
+    SCENARIO_OPTIONS.push({
+      value: s,
+      text: (VIDEO_DATA[s] && VIDEO_DATA[s].label) ? VIDEO_DATA[s].label : ('Scenario ' + s)
+    });
+  }
+
+  var AGENT_OPTIONS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (n) {
+    return { value: n, text: 'N = ' + n };
+  });
+
+  function getScenarioLabel(scenarioId) {
+    return (VIDEO_DATA[scenarioId] && VIDEO_DATA[scenarioId].label) || ('Scenario ' + scenarioId);
+  }
+
+  function renderVideoTable(scenarioId, n) {
+    var tbody = document.getElementById('video-tbody');
+    var scenario = VIDEO_DATA[scenarioId];
+    var data = scenario && scenario.byN[n];
+
+    if (data) {
+      tbody.innerHTML =
+        '<tr class="scene-row">' +
+          '<td class="video-cell ours"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.ours + '" type="video/mp4"></video></td>' +
+          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.orca + '" type="video/mp4"></video></td>' +
+          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.asrl + '" type="video/mp4"></video></td>' +
+          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.lf + '" type="video/mp4"></video></td>' +
+          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.deform + '" type="video/mp4"></video></td>' +
+        '</tr>' +
+        '<tr class="scene-label-row"><td colspan="5">' + getScenarioLabel(scenarioId) + ' (N = ' + n + ')</td></tr>';
+
+      Array.prototype.forEach.call(tbody.querySelectorAll('video'), function (v) {
+        v.load();
+        var p = v.play();
+        if (p && p.catch) { p.catch(function () {}); }
+      });
+    } else {
+      tbody.innerHTML =
+        '<tr class="scene-row"><td colspan="5" class="no-data-cell">' +
+          'No videos available yet for <strong>' + getScenarioLabel(scenarioId) + '</strong> at <strong>N = ' + n + '</strong>.' +
+        '</td></tr>';
+    }
+  }
+
+  // Accessible collapsible listbox-button dropdown (WAI-ARIA APG pattern).
+  function createDropdown(config) {
+    var root = document.getElementById(config.rootId);
+    var button = document.getElementById(config.buttonId);
+    var listbox = document.getElementById(config.listboxId);
+    var valueEl = document.getElementById(config.valueId);
+    var options = config.options;
+    var selectedIndex = config.initialIndex || 0;
+    var activeIndex = selectedIndex;
+
+    options.forEach(function (opt, i) {
+      var li = document.createElement('li');
+      li.id = config.listboxId + '-opt-' + i;
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', i === selectedIndex ? 'true' : 'false');
+      li.textContent = opt.text;
+      li.addEventListener('click', function () {
+        selectIndex(i);
+      });
+      listbox.appendChild(li);
+    });
+
+    function optionEls() {
+      return listbox.querySelectorAll('li[role="option"]');
+    }
+
+    function setActive(i) {
+      activeIndex = i;
+      var els = optionEls();
+      Array.prototype.forEach.call(els, function (el, idx) {
+        el.classList.toggle('is-active', idx === i);
+      });
+      listbox.setAttribute('aria-activedescendant', els[i].id);
+      els[i].scrollIntoView({ block: 'nearest' });
+    }
+
+    function openMenu() {
+      listbox.hidden = false;
+      button.setAttribute('aria-expanded', 'true');
+      root.setAttribute('data-open', 'true');
+      setActive(selectedIndex);
+      listbox.focus();
+      document.addEventListener('mousedown', onOutsideClick);
+    }
+
+    function closeMenu(returnFocus) {
+      listbox.hidden = true;
+      button.setAttribute('aria-expanded', 'false');
+      root.setAttribute('data-open', 'false');
+      document.removeEventListener('mousedown', onOutsideClick);
+      if (returnFocus) { button.focus(); }
+    }
+
+    function onOutsideClick(e) {
+      if (!root.contains(e.target)) { closeMenu(false); }
+    }
+
+    function selectIndex(i) {
+      selectedIndex = i;
+      var els = optionEls();
+      Array.prototype.forEach.call(els, function (el, idx) {
+        el.setAttribute('aria-selected', idx === i ? 'true' : 'false');
+      });
+      valueEl.textContent = options[i].text;
+      closeMenu(true);
+      config.onChange(options[i].value);
+    }
+
+    button.addEventListener('click', function () {
+      if (listbox.hidden) { openMenu(); } else { closeMenu(true); }
+    });
+
+    button.addEventListener('keydown', function (e) {
+      if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && listbox.hidden) {
+        e.preventDefault();
+        openMenu();
+      }
+    });
+
+    listbox.addEventListener('keydown', function (e) {
+      var count = options.length;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActive(Math.min(activeIndex + 1, count - 1));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActive(Math.max(activeIndex - 1, 0));
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        setActive(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        setActive(count - 1);
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectIndex(activeIndex);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu(true);
+      } else if (e.key === 'Tab') {
+        closeMenu(false);
+      }
+    });
+
+    return {
+      getValue: function () { return options[selectedIndex].value; }
+    };
+  }
+
+  var currentScenario = SCENARIO_OPTIONS[0].value;
+  var currentAgents = AGENT_OPTIONS[0].value;
+
+  createDropdown({
+    rootId: 'scenario-dropdown',
+    buttonId: 'scenario-button',
+    listboxId: 'scenario-listbox',
+    valueId: 'scenario-value',
+    options: SCENARIO_OPTIONS,
+    initialIndex: 0,
+    onChange: function (value) {
+      currentScenario = value;
+      renderVideoTable(currentScenario, currentAgents);
+    }
+  });
+
+  createDropdown({
+    rootId: 'agents-dropdown',
+    buttonId: 'agents-button',
+    listboxId: 'agents-listbox',
+    valueId: 'agents-value',
+    options: AGENT_OPTIONS,
+    initialIndex: 0,
+    onChange: function (value) {
+      currentAgents = value;
+      renderVideoTable(currentScenario, currentAgents);
+    }
+  });
+
+  renderVideoTable(currentScenario, currentAgents);
 </script>
 
 <body>
