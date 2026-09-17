@@ -378,19 +378,6 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
     <div class="columns is-centered has-text-centered">
       <div class="column">
         <div class="video-controls-bar">
-          <div class="dropdown-tile" id="scenario-dropdown" data-open="false">
-            <button type="button" class="dropdown-tile-button" id="scenario-button"
-                    aria-haspopup="listbox" aria-expanded="false" aria-controls="scenario-listbox">
-              <span class="dropdown-tile-text">
-                <span class="dropdown-tile-label">Scenario</span>
-                <span class="dropdown-tile-value" id="scenario-value">Scenario 1</span>
-              </span>
-              <span class="dropdown-tile-caret" aria-hidden="true">&#9662;</span>
-            </button>
-            <ul class="dropdown-tile-menu" id="scenario-listbox" role="listbox"
-                aria-labelledby="scenario-button" tabindex="-1" hidden></ul>
-          </div>
-
           <div class="dropdown-tile" id="agents-dropdown" data-open="false">
             <button type="button" class="dropdown-tile-button" id="agents-button"
                     aria-haspopup="listbox" aria-expanded="false" aria-controls="agents-listbox">
@@ -605,14 +592,6 @@ at extremely low speeds (0.07–1.79 m/s, 40% completion rate).
     14: { byN: { 3: { ours: './static/gifs/slalom_longbars45_slalom_N3_fastfunnels.gif', orca: './static/gifs/slalom_longbars45_slalom_N3_orca.gif', gcbf: './static/gifs/slalom_longbars45_slalom_N3_gcbf.gif', dmpc_ff: './static/gifs/slalom_longbars45_slalom_N3_dmpc_ff.gif', deform: './static/gifs/slalom_longbars45_slalom_N3_deform.gif', deform_tb3: './static/gifs/slalom_longbars45_slalom_N3_deform_tb3.gif' } } }
   };
 
-  var SCENARIO_OPTIONS = [];
-  for (var s = 1; s <= 14; s++) {
-    SCENARIO_OPTIONS.push({
-      value: s,
-      text: (VIDEO_DATA[s] && VIDEO_DATA[s].label) ? VIDEO_DATA[s].label : ('Scenario ' + s)
-    });
-  }
-
   var AGENT_OPTIONS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (n) {
     return { value: n, text: 'N = ' + n };
   });
@@ -621,8 +600,7 @@ at extremely low speeds (0.07–1.79 m/s, 40% completion rate).
     return (VIDEO_DATA[scenarioId] && VIDEO_DATA[scenarioId].label) || ('Scenario ' + scenarioId);
   }
 
-  function renderVideoTable(scenarioId, n) {
-    var tbody = document.getElementById('video-tbody');
+  function renderScenarioRows(scenarioId, n) {
     var scenario = VIDEO_DATA[scenarioId];
     var data = scenario && scenario.byN[n];
     var colCount = METHODS.length;
@@ -637,15 +615,22 @@ at extremely low speeds (0.07–1.79 m/s, 40% completion rate).
         return '<td class="video-cell' + oursClass + '"><div class="video-cell missing">No video available</div></td>';
       }).join('');
 
-      tbody.innerHTML =
-        '<tr class="scene-row">' + cells + '</tr>' +
+      return '<tr class="scene-row">' + cells + '</tr>' +
         '<tr class="scene-label-row"><td colspan="' + colCount + '">' + getScenarioLabel(scenarioId) + ' (N = ' + n + ')</td></tr>';
-    } else {
-      tbody.innerHTML =
-        '<tr class="scene-row"><td colspan="' + colCount + '" class="no-data-cell">' +
-          'No videos available yet for <strong>' + getScenarioLabel(scenarioId) + '</strong> at <strong>N = ' + n + '</strong>.' +
-        '</td></tr>';
     }
+
+    return '<tr class="scene-row"><td colspan="' + colCount + '" class="no-data-cell">' +
+      'No videos available yet for <strong>' + getScenarioLabel(scenarioId) + '</strong> at <strong>N = ' + n + '</strong>.' +
+      '</td></tr>';
+  }
+
+  function renderAllScenarios(n) {
+    var tbody = document.getElementById('video-tbody');
+    var html = '';
+    for (var s = 1; s <= 14; s++) {
+      html += renderScenarioRows(s, n);
+    }
+    tbody.innerHTML = html;
   }
 
   // Accessible collapsible listbox-button dropdown (WAI-ARIA APG pattern).
@@ -757,21 +742,7 @@ at extremely low speeds (0.07–1.79 m/s, 40% completion rate).
     };
   }
 
-  var currentScenario = SCENARIO_OPTIONS[0].value;
   var currentAgents = AGENT_OPTIONS[0].value;
-
-  createDropdown({
-    rootId: 'scenario-dropdown',
-    buttonId: 'scenario-button',
-    listboxId: 'scenario-listbox',
-    valueId: 'scenario-value',
-    options: SCENARIO_OPTIONS,
-    initialIndex: 0,
-    onChange: function (value) {
-      currentScenario = value;
-      renderVideoTable(currentScenario, currentAgents);
-    }
-  });
 
   createDropdown({
     rootId: 'agents-dropdown',
@@ -782,11 +753,11 @@ at extremely low speeds (0.07–1.79 m/s, 40% completion rate).
     initialIndex: 0,
     onChange: function (value) {
       currentAgents = value;
-      renderVideoTable(currentScenario, currentAgents);
+      renderAllScenarios(currentAgents);
     }
   });
 
-  renderVideoTable(currentScenario, currentAgents);
+  renderAllScenarios(currentAgents);
 </script>
 
 <body>
