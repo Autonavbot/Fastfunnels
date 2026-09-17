@@ -79,6 +79,37 @@ Narrow Spaces via Adaptive and Dynamic Funnels</title>
       box-shadow: 0 4px 12px rgba(26,115,232,0.3);
     }
 
+    .video-cell img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #000;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border: 3px solid #222;
+    }
+
+    .video-cell.ours img {
+      border: 4px solid #1a73e8;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.3);
+    }
+
+    .video-cell.missing {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 16 / 9;
+      border: 1px dashed #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+      color: #888;
+      font-size: 0.8rem;
+      font-style: italic;
+      padding: 0.5rem;
+      text-align: center;
+    }
+
     .scene-label-row td {
       text-align: center;
       padding: 0.3rem 0.5rem 1.2rem;
@@ -378,11 +409,12 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
           <table class="video-grid-table">
             <thead>
               <tr>
-                <th class="method-header" style="width:20%">FASTFUNNELS (Ours)</th>
-                <th class="method-header" style="width:20%">ORCA</th>
-                <th class="method-header" style="width:20%">ASRL</th>
-                <th class="method-header" style="width:20%">L&F</th>
-                <th class="method-header" style="width:20%">DEFORM</th>
+                <th class="method-header" style="width:16.66%">FASTFUNNELS (Ours)</th>
+                <th class="method-header" style="width:16.66%">ORCA</th>
+                <th class="method-header" style="width:16.66%">GCBF</th>
+                <th class="method-header" style="width:16.66%">DMPC-FF</th>
+                <th class="method-header" style="width:16.66%">DEFORM</th>
+                <th class="method-header" style="width:16.66%">DEFORM (TB3)</th>
               </tr>
             </thead>
             <tbody id="video-tbody" aria-live="polite"></tbody>
@@ -401,7 +433,38 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We consider the problem of high-speed and safe multi-robot navigation in cluttered spaces with tight spatial constraints. Ideally, we want robots to move fast but be safe at the same time. Current approaches directly optimize for robot trajectories that satisfy both constraints, but solving the resulting non-convex problem at high speeds in real-time, with tightly coupled, constrained dynamics, is complex and remains an open problem. In this work, we propose a new approach using funnels and optimizing them, instead of optimizing the robot's trajectory directly. Drawing inspiration from swarm robotics and multi-robot coordination literature, in particular, formation-based control methods, we propose a hierarchical algorithm that trains a dual-policy network. The high-level policy controls a dynamic ``blob''-like patch that can morph its shape in real-time, and the low-level policy controls the agents to simply stay inside the patch. By deferring the high-speed maneuverability to the patch, which can fluidly squeeze, stretch, and orient itself through obstacles and tight spaces, the patch ``funnels'' the enclosed robots at high speeds around obstacles and tight spaces. Our approach, called FASTFUNNELS, thus bypasses the need for robots to solve complex dual-objective, dynamics-constrained optimizations and instead satisfies a much simpler spatial constraint. We evaluate our approach using simulated F1TENTH racing cars and show that FASTFUNNELS achieves 100% convoy success at 5.6m/s across N=2 and N=3 over 20 trials, while all baselines that scale beyond N=2 either fail or succeed at 7.6 times lower speed (0.74 m/s, 20% aSR).
+            In this paper, we focus on the problem of high-speed multi-robot navigation in cluttered spaces with tight spatial
+constraints. A key technical challenge that the literature today
+faces is to balance safety with agility, often trading one for the
+other (slowing down near a bottleneck to avoid a collision versus
+failing to swerve in time at high speeds)especially in car-like
+dynamic systems. The approach presented in this paper aims
+to solve this problem and belongs to the family of formation
+control methods where Ackermann-steering agents coordinate
+with each other when navigating tight spaces. Formation control
+techniques today, however, rely on rigid, pre-defined shapes
+and adaptations, initial conditions, environmental conditions, and
+vehicular dynamics, that are typically impractical to maintain
+at high speeds. For e.g. agents going through a small gap can
+ONLY first form a square that eventually transforms into a line
+using analytical equations, and then back into a square. Our
+approach, on the other hand, draws inspiration from a smoothly
+flowing droplet of water that adapts its shape continuously and
+dynamically through whatever space its flowing without slowing
+down. We propose a hierarchical algorithm that, at the high level,
+trains a reinforcement learning policy to produce a fast, dynamic
+“blob-like” elliptical patch that can morph its shape in real-time
+and can squeeze, stretch, and orient itself fluidly around obstacles
+and through tight spaces. At the lower level, the agents or robots
+are optimized via distributed model predictive control (DMPC)
+to stay inside the patch (which acts as a soft forcing function
+for the agents) and not collide with each other. We evaluate
+our approach, FASTFUNNELS, using simulated F1TENTH racing
+cars and show that FASTFUNNELS surpasses the baselines and
+achieves a completion rate of 89% at 7.73 m/s across N =1 to
+N =6 robots in 14 different scenarios averaged over 20 trials each,
+while all baselines either fail to complete the track or succeed
+at extremely low speeds (0.07–1.79 m/s, 40% completion rate).
           </p>
         </div>
       </div>
@@ -480,11 +543,15 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
 </script>
 
 <script>
-  // Video data keyed by scenario id -> agent count (N) -> per-method video paths.
-  // Only scenarios 1 and 2 currently have real video assets; all others are
-  // placeholders awaiting data, and unmatched (scenario, N) combos fall back
-  // to a "no data yet" message instead of a broken video.
-  var VIDEO_DATA = {
+  // Video data keyed by scenario id -> agent count (N) -> per-method gif paths.
+  // A method value of null means that baseline has no clip for this scenario
+  // (renders a small "no video" placeholder in that one cell).
+  //
+  // Previous mp4-based scenarios (Narrow Corridor, Static Obstacle) are
+  // commented out for now in favor of the 14 gif-based scenarios below.
+  // Also excluded for now, per current scope: leader_follower, fastfunnels_fixed.
+  /*
+  var VIDEO_DATA_OLD = {
     1: {
       label: 'Narrow Corridor',
       byN: {
@@ -510,6 +577,33 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
       }
     }
   };
+  */
+
+  var METHODS = [
+    { key: 'ours', label: 'FASTFUNNELS (Ours)' },
+    { key: 'orca', label: 'ORCA' },
+    { key: 'gcbf', label: 'GCBF' },
+    { key: 'dmpc_ff', label: 'DMPC-FF' },
+    { key: 'deform', label: 'DEFORM' },
+    { key: 'deform_tb3', label: 'DEFORM (TB3)' }
+  ];
+
+  var VIDEO_DATA = {
+    1: { byN: { 3: { ours: './static/gifs/clutter_c25_group1_N3_fastfunnels.gif', orca: './static/gifs/clutter_c25_group1_N3_orca.gif', gcbf: './static/gifs/clutter_c25_group1_N3_gcbf.gif', dmpc_ff: './static/gifs/clutter_c25_group1_N3_dmpc_ff.gif', deform: './static/gifs/clutter_c25_group1_N3_deform.gif', deform_tb3: './static/gifs/clutter_c25_group1_N3_deform_tb3.gif' } } },
+    2: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_obs1_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_obs1_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_obs1_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_obs1_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_obs1_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_obs1_N3_deform_tb3.gif' } } },
+    3: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_obs2_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_obs2_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_obs2_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_obs2_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_obs2_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_obs2_N3_deform_tb3.gif' } } },
+    4: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_obs3_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_obs3_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_obs3_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_obs3_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_obs3_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_obs3_N3_deform_tb3.gif' } } },
+    5: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_obs4_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_obs4_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_obs4_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_obs4_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_obs4_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_obs4_N3_deform_tb3.gif' } } },
+    6: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_obs5_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_obs5_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_obs5_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_obs5_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_obs5_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_obs5_N3_deform_tb3.gif' } } },
+    7: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_obs6_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_obs6_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_obs6_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_obs6_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_obs6_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_obs6_N3_deform_tb3.gif' } } },
+    8: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_obs7_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_obs7_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_obs7_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_obs7_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_obs7_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_obs7_N3_deform_tb3.gif' } } },
+    9: { byN: { 3: { ours: './static/gifs/neck_escalate_easy_tail_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_easy_tail_N3_orca.gif', gcbf: './static/gifs/neck_escalate_easy_tail_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_easy_tail_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_easy_tail_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_easy_tail_N3_deform_tb3.gif' } } },
+    10: { byN: { 3: { ours: './static/gifs/neck_escalate_obs1_N3_fastfunnels.gif', orca: './static/gifs/neck_escalate_obs1_N3_orca.gif', gcbf: './static/gifs/neck_escalate_obs1_N3_gcbf.gif', dmpc_ff: './static/gifs/neck_escalate_obs1_N3_dmpc_ff.gif', deform: './static/gifs/neck_escalate_obs1_N3_deform.gif', deform_tb3: './static/gifs/neck_escalate_obs1_N3_deform_tb3.gif' } } },
+    11: { byN: { 3: { ours: './static/gifs/open_narrow_obs_orig_obs1_N3_fastfunnels.gif', orca: './static/gifs/open_narrow_obs_orig_obs1_N3_orca.gif', gcbf: './static/gifs/open_narrow_obs_orig_obs1_N3_gcbf.gif', dmpc_ff: './static/gifs/open_narrow_obs_orig_obs1_N3_dmpc_ff.gif', deform: './static/gifs/open_narrow_obs_orig_obs1_N3_deform.gif', deform_tb3: './static/gifs/open_narrow_obs_orig_obs1_N3_deform_tb3.gif' } } },
+    12: { byN: { 3: { ours: './static/gifs/open_narrow_obs_orig_obs2_N3_fastfunnels.gif', orca: './static/gifs/open_narrow_obs_orig_obs2_N3_orca.gif', gcbf: './static/gifs/open_narrow_obs_orig_obs2_N3_gcbf.gif', dmpc_ff: './static/gifs/open_narrow_obs_orig_obs2_N3_dmpc_ff.gif', deform: './static/gifs/open_narrow_obs_orig_obs2_N3_deform.gif', deform_tb3: './static/gifs/open_narrow_obs_orig_obs2_N3_deform_tb3.gif' } } },
+    13: { byN: { 3: { ours: './static/gifs/open_narrow_obs_orig_obs3_N3_fastfunnels.gif', orca: './static/gifs/open_narrow_obs_orig_obs3_N3_orca.gif', gcbf: null, dmpc_ff: './static/gifs/open_narrow_obs_orig_obs3_N3_dmpc_ff.gif', deform: './static/gifs/open_narrow_obs_orig_obs3_N3_deform.gif', deform_tb3: './static/gifs/open_narrow_obs_orig_obs3_N3_deform_tb3.gif' } } },
+    14: { byN: { 3: { ours: './static/gifs/slalom_longbars45_slalom_N3_fastfunnels.gif', orca: './static/gifs/slalom_longbars45_slalom_N3_orca.gif', gcbf: './static/gifs/slalom_longbars45_slalom_N3_gcbf.gif', dmpc_ff: './static/gifs/slalom_longbars45_slalom_N3_dmpc_ff.gif', deform: './static/gifs/slalom_longbars45_slalom_N3_deform.gif', deform_tb3: './static/gifs/slalom_longbars45_slalom_N3_deform_tb3.gif' } } }
+  };
 
   var SCENARIO_OPTIONS = [];
   for (var s = 1; s <= 14; s++) {
@@ -531,26 +625,24 @@ Narrow Spaces via Adaptive and Dynamic Funnels  </h1>
     var tbody = document.getElementById('video-tbody');
     var scenario = VIDEO_DATA[scenarioId];
     var data = scenario && scenario.byN[n];
+    var colCount = METHODS.length;
 
     if (data) {
-      tbody.innerHTML =
-        '<tr class="scene-row">' +
-          '<td class="video-cell ours"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.ours + '" type="video/mp4"></video></td>' +
-          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.orca + '" type="video/mp4"></video></td>' +
-          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.asrl + '" type="video/mp4"></video></td>' +
-          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.lf + '" type="video/mp4"></video></td>' +
-          '<td class="video-cell"><video autoplay muted loop playsinline preload="metadata"><source src="' + data.deform + '" type="video/mp4"></video></td>' +
-        '</tr>' +
-        '<tr class="scene-label-row"><td colspan="5">' + getScenarioLabel(scenarioId) + ' (N = ' + n + ')</td></tr>';
+      var cells = METHODS.map(function (m) {
+        var src = data[m.key];
+        var oursClass = m.key === 'ours' ? ' ours' : '';
+        if (src) {
+          return '<td class="video-cell' + oursClass + '"><img src="' + src + '" alt="' + m.label + ' — ' + getScenarioLabel(scenarioId) + '" loading="lazy"></td>';
+        }
+        return '<td class="video-cell' + oursClass + '"><div class="video-cell missing">No video available</div></td>';
+      }).join('');
 
-      Array.prototype.forEach.call(tbody.querySelectorAll('video'), function (v) {
-        v.load();
-        var p = v.play();
-        if (p && p.catch) { p.catch(function () {}); }
-      });
+      tbody.innerHTML =
+        '<tr class="scene-row">' + cells + '</tr>' +
+        '<tr class="scene-label-row"><td colspan="' + colCount + '">' + getScenarioLabel(scenarioId) + ' (N = ' + n + ')</td></tr>';
     } else {
       tbody.innerHTML =
-        '<tr class="scene-row"><td colspan="5" class="no-data-cell">' +
+        '<tr class="scene-row"><td colspan="' + colCount + '" class="no-data-cell">' +
           'No videos available yet for <strong>' + getScenarioLabel(scenarioId) + '</strong> at <strong>N = ' + n + '</strong>.' +
         '</td></tr>';
     }
